@@ -11,39 +11,38 @@ class BarCodeReaderApp extends StatelessWidget {
     return MaterialApp(
       title: 'BarCode Reader',
       theme: ThemeData.dark(),
-      home: MyHomePage(title: 'BarCode Reader'),
+      home: HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
-
+class HomePage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   String _result, _value = 'Nada scaneado até o momento!';
 
   bool _statusRead = false;
 
   Future _scanCode() async {
-    _result =
-        await FlutterBarcodeScanner.scanBarcode('#004297', "Cancelar", true);
+    _result = await FlutterBarcodeScanner.scanBarcode(
+        '#004297', "Cancelar", true, ScanMode.DEFAULT);
 
-    setState(() {
-      _value = _result;
-      _statusRead = true;
-    });
+    if (_result.compareTo("-1") != 0) {
+      setState(() {
+        _value = _result;
+        _statusRead = true;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Barcode Reader'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.camera),
@@ -60,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
               FlatButton(
                 onPressed: () {
                   if (_statusRead) {
-                    Share.text('BarCode Reader', _value, 'text/plain');
+                    Share.text('Barcode Reader', _value, 'text/plain');
                   }
                 },
                 child: Text(
