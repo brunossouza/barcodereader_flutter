@@ -12,7 +12,6 @@ class BarCodeReaderApp extends StatelessWidget {
       title: 'QRCode Reader',
       theme: ThemeData(
         brightness: Brightness.light,
-        primaryColor: Colors.red,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
