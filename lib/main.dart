@@ -9,8 +9,14 @@ class BarCodeReaderApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'BarCode Reader',
-      theme: ThemeData.dark(),
+      title: 'QRCode Reader',
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: Colors.red,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
       home: HomePage(),
     );
   }
@@ -41,34 +47,44 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Barcode Reader'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.camera),
-            onPressed: _scanCode,
-            tooltip: 'Scan',
-          ),
-        ],
-      ),
-      body: Center(
+      // appBar: AppBar(
+      //   title: Text('QRcode Reader'),
+      //   actions: <Widget>[
+      //     IconButton(
+      //       icon: Icon(Icons.camera),
+      //       onPressed: _scanCode,
+      //       tooltip: 'Scan',
+      //     ),
+      //   ],
+      // ),
+      body: SafeArea(
         child: Container(
-          padding: EdgeInsets.all(15),
+          width: double.infinity,
+          height: double.infinity,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              FlatButton(
-                onPressed: () {
-                  if (_statusRead) {
-                    Share.text('Barcode Reader', _value, 'text/plain');
-                  }
-                },
-                child: Text(
-                  _value,
-                  style: TextStyle(
-                    fontSize: 20,
+              if (_statusRead)
+                FlatButton(
+                  onPressed: () {
+                    Share.text('QRCode Reader', _value, 'text/plain');
+                  },
+                  child: Text(
+                    _value,
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
                 ),
-              ),
+              if (_statusRead)
+                SizedBox(
+                  height: 30.0,
+                ),
+              FlatButton.icon(
+                onPressed: _scanCode,
+                icon: Icon(Icons.camera),
+                label: Text(_statusRead ? "Scan Novo QRCode" : "Scan QRCode"),
+              )
             ],
           ),
         ),
